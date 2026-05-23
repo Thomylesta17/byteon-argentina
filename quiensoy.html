@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quién Soy | Byteon Argentina</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ── QUIÉN SOY — estilos específicos ── */
+
+    /* HERO PERSONAL */
+    .qs-hero {
+      min-height: 100vh;
+      padding: calc(var(--nav-h) + 4rem) 5% 5rem;
+      display: flex;
+      align-items: center;
+      gap: 5rem;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+      overflow: hidden;
+    }
+    .qs-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,196,0,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* FOTO */
+    .qs-photo-wrap {
+      flex-shrink: 0;
+      position: relative;
+      width: 280px;
+    }
+    .qs-photo-frame {
+      width: 280px; height: 500px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid var(--gray2);
+      position: relative;
+    }
+    .qs-photo-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      filter: grayscale(5%);
+      transition: filter 0.4s ease;
+    }
+    .qs-photo-frame:hover img { filter: grayscale(0%); }
+
+    /* Decoración esquina */
+    .qs-photo-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.4) 0%, transparent 50%);
+    }
+    .qs-photo-badge {
+      position: absolute;
+      bottom: -16px; right: -16px;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 16px rgba(245,196,0,0.3);
+      line-height: 1.4;
+      text-align: center;
+    }
+    .qs-photo-corner {
+      position: absolute;
+      top: -12px; left: -12px;
+      width: 48px; height: 48px;
+      border-top: 3px solid var(--yellow);
+      border-left: 3px solid var(--yellow);
+      border-radius: 4px 0 0 0;
+    }
+
+    /* HERO TEXT */
+    .qs-hero-text { flex: 1; }
+    .qs-hero-text .hero-tag { margin-bottom: 0.75rem; }
+    .qs-name {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .qs-name span { color: var(--yellow); }
+    .qs-location {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .qs-location i { color: var(--yellow); }
+    .qs-bio {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 2rem;
+    }
+    .qs-bio strong { color: var(--white); font-weight: 600; }
+
+    .qs-lema {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: var(--yellow);
+      border-left: 3px solid var(--yellow);
+      padding-left: 1rem;
+      font-style: italic;
+      margin-bottom: 2rem;
+      letter-spacing: 0.02em;
+    }
+
+    .qs-chips { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .qs-chip {
+      background: var(--gray2);
+      border: 1px solid var(--gray3);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.3rem 0.9rem;
+      color: #ccc;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: var(--transition);
+    }
+    .qs-chip:hover { border-color: var(--yellow); color: var(--yellow); }
+    .qs-chip i { color: var(--yellow); font-size: 0.7rem; }
+
+    /* ── SECCIÓN ESTUDIOS ── */
+    .qs-section { padding: 5rem 5%; border-bottom: 1px solid var(--gray2); }
+    .qs-section-inner { max-width: 1000px; margin: 0 auto; }
+
+    .timeline { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 160px 1px 1fr;
+      gap: 0 2rem;
+      position: relative;
+    }
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--yellow);
+      text-align: right;
+      padding-top: 0.25rem;
+      line-height: 1.5;
+    }
+    .timeline-line {
+      width: 1px;
+      background: var(--gray2);
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .timeline-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 0 4px rgba(245,196,0,0.15);
+    }
+    .timeline-content {
+      padding-bottom: 3rem;
+    }
+    .timeline-content h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .timeline-content .inst {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 0.75rem;
+    }
+    .timeline-content p { color: #aaa; font-size: 0.9rem; line-height: 1.7; }
+
+    .timeline-badge {
+      display: inline-block;
+      background: rgba(245,196,0,0.1);
+      border: 1px solid rgba(245,196,0,0.3);
+      color: var(--yellow);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 4px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .skill-category {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+    .skill-category:hover { border-color: var(--yellow); }
+    .skill-cat-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .skill-cat-title i { font-size: 0.9rem; }
+    .skill-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .skill-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .skill-name {
+      font-size: 0.82rem;
+      color: #ccc;
+      display: flex; justify-content: space-between;
+    }
+    .skill-name span { color: var(--yellow); font-family: var(--font-mono); font-size: 0.75rem; }
+    .skill-bar {
+      height: 4px;
+      background: var(--gray2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: var(--yellow);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 1.2s ease;
+    }
+
+    /* ── OBJETIVOS ── */
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .goal-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .goal-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: transparent;
+      transition: var(--transition);
+    }
+    .goal-card:hover { border-color: var(--yellow); transform: translateY(-3px); }
+    .goal-card:hover::before { background: var(--yellow); }
+    .goal-icon {
+      width: 44px; height: 44px;
+      background: rgba(245,196,0,0.1);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      color: var(--yellow);
+    }
+    .goal-card h3 { font-size: 1rem; font-weight: 700; }
+    .goal-card p { font-size: 0.875rem; color: #888; line-height: 1.65; flex: 1; }
+    .goal-horizon {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--yellow);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .qs-hero { flex-direction: column; gap: 3rem; min-height: unset; }
+      .qs-photo-wrap { width: 220px; }
+      .qs-photo-frame { width: 220px; height: 265px; }
+    }
+    @media (max-width: 580px) {
+      .timeline-item { grid-template-columns: 90px 1px 1fr; gap: 0 1rem; }
+      .timeline-date { font-size: 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
+      <li><a href="quiensoy.html" class="active" data-es="Quién Soy" data-en="About Me">Quién Soy</a></li>
+      <li><a href="proyectos.html" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      <li><a href="actualidad.html" data-es="Actualidad" data-en="News">Actualidad</a></li>
+      <li><a href="redes.html" data-es="Redes" data-en="Social">Redes</a></li>
+      <li><a href="contacto.html" class="nav-cta" data-es="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" /> ES
+      </button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" /> EN
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO PERSONAL -->
+  <section class="qs-hero">
+    <div class="qs-photo-wrap">
+      <div class="qs-photo-corner"></div>
+      <div class="qs-photo-frame">
+        <img src="assets/img/ThomasLestaFoto.jpg" alt="Thomás Lesta" />
+      </div>
+      <div class="qs-photo-badge">
+        &lt;Byteon AR /&gt;<br/>
+        <span style="font-weight:400; color: rgba(0,0,0,0.6);"></span>
+      </div>
+    </div>
+
+    <div class="qs-hero-text animate-in">
+      <p class="hero-tag" data-es="&lt;sobre mí /&gt;" data-en="&lt;about me /&gt;">&lt;sobre mí /&gt;</p>
+      <h1 class="qs-name">Thomás<br/><span>Lesta</span></h1>
+      <p class="qs-location">
+        <i class="fa-solid fa-location-dot"></i>
+        <span data-es="Deán Funes, Córdoba, Argentina" data-en="Deán Funes, Córdoba, Argentina">Deán Funes, Córdoba, Argentina</span>
+      </p>
+      <p class="qs-bio"
+         data-es="Tengo 20 años y soy un<strong> técnico desarrollador de software en formación</strong>, apasionado por la tecnología, la inteligencia artificial y la robótica. Construyo software con foco en el diseño, la funcionalidad y el impacto real, siempre abierto a la posibilidad de mejorar. <br/><br/>Detrás de Byteon Argentina hay una convicción simple: el código puede cambiar realidades, y quiero ser parte de ese cambio."
+         data-en="I'm 20 years old and a <strong> technical software developer in training</strong>, passionate about technology, artificial intelligence and robotics. I build software focused on design, functionality and real impact, always open to the possibility of improvement. <br/><br/>Behind Byteon Argentina there's a simple conviction: code can change realities, and I want to be part of that change.">
+        Tengo 20 años y soy un<strong> técnico desarrollador de software en formación</strong>, apasionado por la tecnología, la inteligencia artificial y la robótica. Construyo software con foco en el diseño, la funcionalidad y el impacto real, siempre abierto a la posibilidad de mejorar. <br/><br/>Detrás de Byteon Argentina hay una convicción simple: el código puede cambiar realidades, y quiero ser parte de ese cambio.
+      </p>
+      <span class="qs-lema" data-es='"Lo mejor está por venir."' data-en='"The best is yet to come."'>"Lo mejor está por venir."</span>
+      <div class="qs-chips">
+        <span class="qs-chip"><i class="fa-solid fa-microchip"></i> <span data-es="Desarrollo de Software" data-en="Software Development">Desarrollo de Software</span></span>
+        <span class="qs-chip"><i class="fa-solid fa-brain"></i> <span data-es="Inteligencia Artificial" data-en="Artificial Intelligence">Inteligencia Artificial</span></span>
+        <span class="qs-chip"><i class="fa-solid fa-robot"></i> <span data-es="Robótica" data-en="Robotics">Robótica</span></span>
+        <span class="qs-chip"><i class="fa-solid fa-code"></i> Open Source</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTUDIOS -->
+  <section class="qs-section">
+    <div class="qs-section-inner">
+      <span class="section-tag" data-es="// formación académica" data-en="// education">// formación académica</span>
+      <h2 data-es="Mis estudios" data-en="My studies">Mis estudios</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-date">
+            <span data-es="Abr 2024 →<br/>Dic 2026" data-en="Apr 2024 →<br/>Dec 2026">Abr 2024 →<br/>Dic 2026</span>
+          </div>
+          <div class="timeline-line"><div class="timeline-dot"></div></div>
+          <div class="timeline-content">
+            <span class="timeline-badge" data-es="EN CURSO" data-en="IN PROGRESS">EN CURSO</span>
+            <h3 data-es="Tecnicatura Superior en Desarrollo de Software" data-en="Higher Technician in Software Development">Tecnicatura Superior en Desarrollo de Software</h3>
+            <p class="inst">Instituto Superior Pascal · <span data-es="Universidad Blas Pascal — Córdoba, Argentina" data-en="Blas Pascal University — Córdoba, Argentina">Universidad Blas Pascal — Córdoba, Argentina</span></p>
+            <p data-es="Carrera de tres años orientada al desarrollo de aplicaciones web, móviles y de escritorio. Cubre desde fundamentos de programación hasta arquitecturas modernas con frameworks como ASP.NET Core, bases de datos relacionales y metodologías ágiles." data-en="Three-year degree focused on web, mobile and desktop application development. Covers programming fundamentals through modern architectures with frameworks like ASP.NET Core, relational databases and agile methodologies.">
+              Carrera de tres años orientada al desarrollo de aplicaciones web, móviles y de escritorio. Cubre desde fundamentos de programación hasta arquitecturas modernas con frameworks como ASP.NET Core, bases de datos relacionales y metodologías ágiles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="qs-section">
+    <div class="qs-section-inner">
+      <span class="section-tag" data-es="// habilidades técnicas" data-en="// technical skills">// habilidades técnicas</span>
+      <h2 data-es="Stack & Tecnologías" data-en="Stack & Technologies">Stack & Tecnologías</h2>
+      <div class="skills-grid">
+
+        <div class="skill-category">
+          <p class="skill-cat-title"><i class="fa-solid fa-code"></i> <span data-es="Lenguajes" data-en="Languages">Lenguajes</span></p>
+          <div class="skill-list">
+            <div class="skill-item">
+              <div class="skill-name">JavaScript <span>85%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">C# <span>75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Python <span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Java <span>65%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">HTML & CSS <span>90%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-cat-title"><i class="fa-solid fa-server"></i> <span data-es="Frameworks & Backend" data-en="Frameworks & Backend">Frameworks & Backend</span></p>
+          <div class="skill-list">
+            <div class="skill-item">
+              <div class="skill-name">ASP.NET Core MVC <span>75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Minimal APIs <span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Entity Framework Core <span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">REST APIs <span>72%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="72"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-cat-title"><i class="fa-solid fa-database"></i> <span data-es="Bases de Datos" data-en="Databases">Bases de Datos</span></p>
+          <div class="skill-list">
+            <div class="skill-item">
+              <div class="skill-name">SQL Server <span>75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">MySQL <span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-cat-title"><i class="fa-solid fa-wrench"></i> <span data-es="Herramientas" data-en="Tools">Herramientas</span></p>
+          <div class="skill-list">
+            <div class="skill-item">
+              <div class="skill-name">Git & GitHub <span>80%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Visual Studio Code <span>90%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">Visual Studio <span>75%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="75"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name">MySQL Workbench <span>70%</span></div>
+              <div class="skill-bar"><div class="skill-fill" data-width="70"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- OBJETIVOS -->
+  <section class="qs-section">
+    <div class="qs-section-inner">
+      <span class="section-tag" data-es="// mi camino" data-en="// my path">// mi camino</span>
+      <h2 data-es="Objetivos & visión de futuro" data-en="Goals & future vision">Objetivos & visión de futuro</h2>
+      <div class="goals-grid">
+
+        <div class="goal-card">
+          <div class="goal-icon"><i class="fa-solid fa-flag"></i></div>
+          <h3 data-es="Construcción del proyecto NUBO" data-en="Building the NUBO Project">Construcción del proyecto NUBO</h3>
+          <p data-es="Hacer realidad la nube de almacenamiento NUBO, esta aplicación de escritorio tiene su propósito de ayudar a empresas medianas en guardar sus productos y proveedores." data-en="Making the NUBO storage cloud a reality, this desktop application aims to help medium-sized businesses store their products and suppliers.">
+            Hacer realidad la nube de almacenamiento NUBO, esta aplicación de escritorio tiene su propósito de ayudar a empresas medianas en guardar sus productos y proveedores.
+          </p>
+          <span class="goal-horizon" data-es="→ Septiembre 2025 - Noviembre 2026" data-en="→ September 2025 - November 2026">→ Septiembre 2025 - Noviembre 2026</span>
+        </div>
+
+        <div class="goal-card">
+          <div class="goal-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <h3 data-es="Finalizar la carrera" data-en="Finalize the degree">Finalizar la carrera</h3>
+          <p data-es="Completar la Tecnicatura con los mejores proyectos posibles, aplicando todo lo aprendido en entornos reales y profesionales." data-en="Complete the degree with the best possible projects, applying everything learned in real and professional environments.">
+            Completar la Tecnicatura con los mejores proyectos posibles, aplicando todo lo aprendido en entornos reales y profesionales.
+          </p>
+          <span class="goal-horizon" data-es="→ Diciembre 2026" data-en="→ December 2026">→ Diciembre 2026</span>
+        </div>
+
+        <div class="goal-card">
+          <div class="goal-icon"><i class="fa-solid fa-rocket"></i></div>
+          <h3 data-es="Primer empleo en tech" data-en="First tech job">Primer empleo en tech</h3>
+          <p data-es="Dar el salto al mundo laboral del desarrollo de software, ya sea en una startup, empresa de producto o de manera freelance con Byteon Argentina." data-en="Break into the software development industry, whether at a startup, product company or freelance through Byteon Argentina.">
+            Dar el salto al mundo laboral del desarrollo de software, ya sea en una startup, empresa de producto o de manera freelance con Byteon Argentina.
+          </p>
+          <span class="goal-horizon" data-es="→ 2026 — 2027" data-en="→ 2026 — 2027">→ 2026 — 2027</span>
+        </div>
+
+        <div class="goal-card">
+          <div class="goal-icon"><i class="fa-solid fa-brain"></i></div>
+          <h3 data-es="Especializarme en IA" data-en="Specialize in AI">Especializarme en IA</h3>
+          <p data-es="Profundizar en inteligencia artificial y machine learning, integrándolos en proyectos reales que generen valor tangible." data-en="Dive deep into artificial intelligence and machine learning, integrating them into real projects that generate tangible value.">
+            Profundizar en inteligencia artificial y machine learning, integrándolos en proyectos reales que generen valor tangible.
+          </p>
+          <span class="goal-horizon" data-es="→ 2027 — 2028" data-en="→ Long term">→ 2027 — 2028</span>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <h2 data-es="¿Querés sumarte a este proyecto?<br/>Escribime." data-en="Want to join this project?<br/>Reach out.">¿Querés sumarte a este proyecto?<br/>Escribime.</h2>
+      <a href="contacto.html" class="btn-dark" data-es="Ir al contacto" data-en="Go to contact">Ir al contacto</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner" style="justify-content:center;">
+      <a href="index.html" class="logo">
+        <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Byteon Argentina</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Animar barras de habilidades al hacer scroll
+    const fills = document.querySelectorAll('.skill-fill');
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          el.style.width = el.dataset.width + '%';
+          skillObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.3 });
+    fills.forEach(f => skillObserver.observe(f));
+
+    // Scroll reveal goal cards
+    const cards = document.querySelectorAll('.goal-card, .skill-category, .timeline-item');
+    const cardObs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          cardObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(20px)';
+      c.style.transition = `opacity 0.5s ease ${i * 0.07}s, transform 0.5s ease ${i * 0.07}s`;
+      cardObs.observe(c);
+    });
+  </script>
+</body>
+</html>

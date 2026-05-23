@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Actualidad | Byteon Argentina</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+
+    /* ── ACTUALIDAD — estilos específicos ── */
+
+    .act-hero {
+      padding: calc(var(--nav-h) + 5rem) 5% 4rem;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+      overflow: hidden;
+    }
+    .act-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,196,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .act-hero-inner { max-width: 700px; }
+    .act-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0.75rem 0 1.2rem;
+    }
+    .act-hero h1 span { color: var(--yellow); }
+    .act-hero p { color: #aaa; font-size: 1rem; line-height: 1.75; max-width: 540px; }
+
+    /* AI BADGE */
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245,196,0,0.08);
+      border: 1px solid rgba(245,196,0,0.25);
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--yellow);
+      margin-top: 1.5rem;
+      letter-spacing: 0.04em;
+    }
+    .ai-badge i { font-size: 0.8rem; }
+    .ai-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      animation: pulse-dot 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* CONTROLES */
+    .act-controls {
+      padding: 1.75rem 5%;
+      border-bottom: 1px solid var(--gray2);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .act-topics {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .topic-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 0.3rem;
+    }
+    .topic-btn {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      color: #888;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      padding: 0.38rem 0.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.03em;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .topic-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .topic-btn.active {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    .refresh-btn {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      color: var(--white);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 0.5rem;
+      letter-spacing: 0.04em;
+    }
+    .refresh-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .refresh-btn.loading { opacity: 0.6; pointer-events: none; }
+    .refresh-btn .spin { animation: spin 0.8s linear infinite; display: none; }
+    .refresh-btn.loading .spin { display: inline-block; }
+    .refresh-btn.loading .icon-refresh { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* MAIN */
+    .act-main { padding: 3rem 5%; min-height: 50vh; }
+
+    /* ESTADO INICIAL */
+    .act-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      gap: 1.2rem;
+      color: #555;
+    }
+    .act-empty i { font-size: 3rem; color: var(--gray2); }
+    .act-empty p { font-family: var(--font-mono); font-size: 0.85rem; max-width: 340px; line-height: 1.7; }
+    .act-empty .btn-primary { margin-top: 0.5rem; }
+
+    /* GRID NOTICIAS */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* NEWS CARD */
+    .news-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: var(--transition);
+      position: relative;
+    }
+    .news-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: transparent;
+      transition: var(--transition);
+    }
+    .news-card:hover {
+      border-color: rgba(245,196,0,0.35);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+    }
+    .news-card:hover::before { background: var(--yellow); }
+    .news-card.featured { grid-column: span 2; flex-direction: row; }
+    .news-card.featured::before { background: var(--yellow); }
+
+    /* IMAGEN */
+    .news-img {
+      width: 100%; height: 190px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--gray2);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .news-card.featured .news-img { width: 280px; height: auto; min-height: 100%; }
+    .news-img img { width: 100%; height: 100%; object-fit: cover; }
+    .news-img-placeholder {
+      font-size: 2.5rem;
+      color: rgba(245,196,0,0.15);
+    }
+
+    /* BODY */
+    .news-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.8rem; flex: 1; }
+    .news-meta { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+    .news-source {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--yellow);
+      background: rgba(245,196,0,0.08);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 140px;
+    }
+    .news-date {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #555;
+    }
+    .news-card h3 {
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* RESUMEN IA */
+    .news-summary {
+      font-size: 0.84rem;
+      color: #888;
+      line-height: 1.65;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .news-summary.loading-text {
+      color: #444;
+      font-style: italic;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .summary-label {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: #444;
+      margin-bottom: 0.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .summary-label i { color: var(--yellow); font-size: 0.7rem; }
+
+    .news-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--yellow);
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
+      width: fit-content;
+      margin-top: auto;
+    }
+    .news-link:hover { border-color: var(--yellow); }
+
+    /* SKELETON LOADER */
+    .skeleton-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .skeleton-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .skeleton-img  { height: 190px; background: var(--gray2); }
+    .skeleton-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .skeleton-line {
+      height: 12px; border-radius: 6px;
+      background: linear-gradient(90deg, var(--gray2) 25%, #2f2f2f 50%, var(--gray2) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    .skeleton-line.w60 { width: 60%; }
+    .skeleton-line.w80 { width: 80%; }
+    .skeleton-line.w40 { width: 40%; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    /* ERROR */
+    .act-error {
+      text-align: center;
+      padding: 5rem 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    .act-error i { font-size: 2.5rem; color: #ff5f57; }
+    .act-error p { font-family: var(--font-mono); font-size: 0.82rem; color: #888; }
+
+    /* TIMESTAMP */
+    .act-timestamp {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #444;
+      text-align: right;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--gray2);
+    }
+    .act-timestamp span { color: var(--yellow); }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .news-card.featured { grid-column: span 1; flex-direction: column; }
+      .news-card.featured .news-img { width: 100%; height: 190px; }
+    }
+    @media (max-width: 560px) {
+      .news-grid, .skeleton-grid { grid-template-columns: 1fr; }
+      .act-controls { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
+      <li><a href="quiensoy.html" data-es="Quién Soy" data-en="About Me">Quién Soy</a></li>
+      <li><a href="proyectos.html" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      <li><a href="actualidad.html" class="active" data-es="Actualidad" data-en="News">Actualidad</a></li>
+      <li><a href="redes.html" data-es="Redes" data-en="Social">Redes</a></li>
+      <li><a href="contacto.html" class="nav-cta" data-es="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" /> ES
+      </button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" /> EN
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="act-hero">
+    <div class="act-hero-inner animate-in">
+      <span class="section-tag" data-es="// actualidad tech" data-en="// tech news">// actualidad tech</span>
+      <h1 data-es="El mundo tech,<br/><span>hoy</span>." data-en="The tech world,<br/><span>today</span>.">El mundo tech,<br/><span>hoy</span>.</h1>
+      <p data-es="Noticias de portales confiables sobre software, inteligencia artificial, robótica y avances tecnológicos." data-en="News from trusted sources about software, artificial intelligence, robotics and tech advances.">
+        Noticias de portales confiables sobre software, inteligencia artificial, robótica y avances tecnológicos.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTROLES -->
+  <div class="act-controls">
+    <div class="act-topics">
+      <span class="topic-label" data-es="Tema:" data-en="Topic:">Tema:</span>
+      <button class="topic-btn active" data-query="artificial intelligence software" data-es="🤖 IA" data-en="🤖 AI">🤖 IA</button>
+      <button class="topic-btn" data-query="software development programming" data-es="💻 Software" data-en="💻 Software">💻 Software</button>
+      <button class="topic-btn" data-query="robotics technology" data-es="🦾 Robótica" data-en="🦾 Robotics">🦾 Robótica</button>
+      <button class="topic-btn" data-query="technology innovation" data-es="🚀 Tecnología" data-en="🚀 Technology">🚀 Tecnología</button>
+    </div>
+    <button class="refresh-btn" id="refreshBtn" onclick="loadNews()">
+      <i class="fa-solid fa-rotate-right icon-refresh"></i>
+      <i class="fa-solid fa-spinner spin"></i>
+      <span data-es="Actualizar noticias" data-en="Refresh news">Actualizar noticias</span>
+    </button>
+  </div>
+
+  <!-- CONTENIDO -->
+  <section class="act-main" id="actMain">
+    <div class="act-empty" id="actEmpty">
+      <i class="fa-solid fa-newspaper"></i>
+      <p data-es="Presioná el botón para cargar las últimas noticias tech del mundo." data-en="Press the button to load the latest tech news from the world.">
+        Presioná el botón para cargar las últimas noticias tech del mundo.
+      </p>
+      <button class="btn-primary" onclick="loadNews()" data-es="Cargar noticias" data-en="Load news">Cargar noticias</button>
+    </div>
+    <div id="actContent" style="display:none;"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner" style="justify-content:center;">
+      <a href="index.html" class="logo">
+        <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Byteon Argentina</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    const GNEWS_KEY = 'd9749a0d8074c0e9b7ca843cc841a35d';
+    let currentQuery = 'artificial intelligence software';
+
+    // Tópicos
+    document.querySelectorAll('.topic-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentQuery = btn.dataset.query;
+      });
+    });
+
+    function getLang() {
+      return localStorage.getItem('byteon-lang') || 'es';
+    }
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      const lang = getLang();
+      return d.toLocaleDateString(lang === 'es' ? 'es-AR' : 'en-US', {
+        day: 'numeric', month: 'short', year: 'numeric'
+      });
+    }
+
+    function showSkeletons() {
+      document.getElementById('actEmpty').style.display = 'none';
+      document.getElementById('actContent').style.display = 'block';
+      document.getElementById('actContent').innerHTML = `
+        <div class="skeleton-grid">
+          ${Array(6).fill('').map(() => `
+            <div class="skeleton-card">
+              <div class="skeleton-img"></div>
+              <div class="skeleton-body">
+                <div class="skeleton-line w40"></div>
+                <div class="skeleton-line w80"></div>
+                <div class="skeleton-line w80"></div>
+                <div class="skeleton-line w60"></div>
+                <div class="skeleton-line w60"></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+    }
+
+    function showError(msg) {
+      document.getElementById('actContent').innerHTML = `
+        <div class="act-error">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <p>${msg}</p>
+        </div>`;
+    }
+
+    async function summarizeWithClaude(title, description, lang) {
+      const prompt = lang === 'es'
+        ? `Resumí esta noticia tech en 2 oraciones en español, claro y directo, sin frases introductorias:\nTítulo: ${title}\nDescripción: ${description}`
+        : `Summarize this tech news in 2 sentences in English, clear and direct, no intro phrases:\nTitle: ${title}\nDescription: ${description}`;
+
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await res.json();
+      return data?.content?.[0]?.text?.trim() || description;
+    }
+
+    async function loadNews() {
+      const btn = document.getElementById('refreshBtn');
+      btn.classList.add('loading');
+      showSkeletons();
+
+      const lang = getLang();
+      const gnewsLang = lang === 'es' ? 'en' : 'en'; // GNews free tier: inglés
+      const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(currentQuery)}&lang=en&country=any&max=9&sortby=publishedAt&apikey=${GNEWS_KEY}`;
+
+      let articles = [];
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data.articles || data.articles.length === 0) {
+          showError(lang === 'es'
+            ? 'No se encontraron noticias. Intentá con otro tema.'
+            : 'No news found. Try a different topic.');
+          btn.classList.remove('loading');
+          return;
+        }
+        articles = data.articles;
+      } catch (e) {
+        showError(lang === 'es'
+          ? 'Error al conectar con el portal de noticias. Revisá tu conexión.'
+          : 'Error connecting to news portal. Check your connection.');
+        btn.classList.remove('loading');
+        return;
+      }
+
+      // Renderizar cards con "Resumiendo..." mientras carga IA
+      const container = document.getElementById('actContent');
+      const now = new Date().toLocaleTimeString(lang === 'es' ? 'es-AR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+      const featured = articles[0];
+      const rest = articles.slice(1);
+
+      container.innerHTML = `
+        <div class="news-grid">
+          ${renderCard(featured, true, lang)}
+          ${rest.map(a => renderCard(a, false, lang)).join('')}
+        </div>
+        <p class="act-timestamp">
+          ${lang === 'es' ? 'Última actualización:' : 'Last updated:'} <span>${now}</span>
+        </p>`;
+
+      btn.classList.remove('loading');
+
+      // Resumir con Claude en paralelo
+      articles.forEach((article, i) => {
+        const summaryEl = document.getElementById(`summary-${i}`);
+        if (!summaryEl) return;
+        summarizeWithClaude(article.title, article.description || '', lang)
+          .then(summary => {
+            summaryEl.classList.remove('loading-text');
+            summaryEl.textContent = summary;
+          })
+          .catch(() => {
+            summaryEl.classList.remove('loading-text');
+            summaryEl.textContent = article.description || '';
+          });
+      });
+    }
+
+    function renderCard(article, featured, lang) {
+      const idx = featured ? 0 : (window._cardIdx = (window._cardIdx || 0) + 1, window._cardIdx);
+      if (featured) window._cardIdx = 0;
+
+      const imgHtml = article.image
+        ? `<img src="${article.image}" alt="" loading="lazy" onerror="this.parentElement.innerHTML='<i class=\\'fa-solid fa-newspaper news-img-placeholder\\'></i>'" />`
+        : `<i class="fa-solid fa-newspaper news-img-placeholder"></i>`;
+
+      const loadingText = lang === 'es' ? 'Resumiendo con IA...' : 'Summarizing with AI...';
+      const readMore = lang === 'es' ? 'Leer nota completa' : 'Read full article';
+      const aiLabel = lang === 'es' ? 'Resumen IA' : 'AI Summary';
+
+      return `
+        <div class="news-card${featured ? ' featured' : ''}">
+          <div class="news-img">${imgHtml}</div>
+          <div class="news-body">
+            <div class="news-meta">
+              <span class="news-source">${article.source?.name || 'Tech News'}</span>
+              <span class="news-date">${formatDate(article.publishedAt)}</span>
+            </div>
+            <h3>${article.title}</h3>
+            <div>
+              <div class="summary-label"><i class="fa-solid fa-microchip"></i> ${aiLabel}</div>
+              <p class="news-summary loading-text" id="summary-${idx}">${loadingText}</p>
+            </div>
+            <a href="${article.url}" target="_blank" rel="noopener" class="news-link">
+              ${readMore} <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>`;
+    }
+
+    // Re-cargar si el usuario cambia idioma estando en esta página
+    const _origSetLang = window.setLang;
+    window.setLang = function(lang) {
+      _origSetLang(lang);
+      const hasContent = document.getElementById('actContent').style.display !== 'none'
+        && document.getElementById('actContent').innerHTML.includes('news-card');
+      if (hasContent) loadNews();
+    };
+  </script>
+</body>
+</html>

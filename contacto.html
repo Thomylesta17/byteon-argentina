@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contacto | Byteon Argentina</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+
+    /* ── CONTACTO — estilos específicos ── */
+
+    .contact-hero {
+      padding: calc(var(--nav-h) + 5rem) 5% 4rem;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-hero::before {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,196,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .contact-hero-inner { max-width: 660px; }
+    .contact-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0.75rem 0 1.2rem;
+    }
+    .contact-hero h1 span { color: var(--yellow); }
+    .contact-hero p { color: #aaa; font-size: 1rem; line-height: 1.75; max-width: 520px; }
+
+    /* ── LAYOUT PRINCIPAL ── */
+    .contact-main {
+      padding: 5rem 5%;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--gray2);
+    }
+
+    /* ── COLUMNA IZQUIERDA — info ── */
+    .contact-info { display: flex; flex-direction: column; gap: 2rem; }
+
+    .contact-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-block-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .contact-block-title i { font-size: 0.8rem; }
+
+    /* EMAIL CARDS */
+    .email-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      transition: var(--transition);
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .email-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: transparent;
+      transition: var(--transition);
+    }
+    .email-card:hover { border-color: rgba(245,196,0,0.35); transform: translateX(4px); }
+    .email-card:hover::before { background: var(--yellow); }
+
+    .email-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: rgba(245,196,0,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: var(--yellow);
+      flex-shrink: 0;
+    }
+    .email-info { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+    .email-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .email-address {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .email-arrow {
+      margin-left: auto;
+      color: #444;
+      font-size: 0.8rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .email-card:hover .email-arrow { color: var(--yellow); transform: translateX(3px); }
+
+    /* DM NOTE */
+    .dm-note {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .dm-note i { color: var(--yellow); font-size: 1rem; margin-top: 0.1rem; flex-shrink: 0; }
+    .dm-note p {
+      font-size: 0.875rem;
+      color: #888;
+      line-height: 1.65;
+    }
+    .dm-note p strong { color: var(--white); font-weight: 600; }
+
+    /* TIEMPO RESPUESTA */
+    .response-time {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: rgba(245,196,0,0.05);
+      border: 1px solid rgba(245,196,0,0.15);
+      border-radius: var(--radius);
+    }
+    .response-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #5dde8f;
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+    .response-time p {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #888;
+      line-height: 1.5;
+    }
+    .response-time p span { color: var(--white); }
+
+    /* ── COLUMNA DERECHA — FORMULARIO ── */
+    .contact-form-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .form-header { margin-bottom: 2rem; }
+    .form-header h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .form-header p { font-size: 0.875rem; color: #888; line-height: 1.6; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.1rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .form-group label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .form-group label span { color: var(--yellow); }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      width: 100%;
+      transition: var(--transition);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #444; }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--yellow);
+      box-shadow: 0 0 0 3px rgba(245,196,0,0.08);
+    }
+    .form-group select option { background: var(--gray); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
+
+    .form-submit {
+      background: var(--yellow);
+      color: var(--black);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.85rem 2rem;
+      border-radius: var(--radius);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.04em;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .form-submit:hover { background: var(--yellow2); transform: translateY(-2px); }
+    .form-submit:active { transform: translateY(0); }
+
+    /* SUCCESS MESSAGE */
+    .form-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      padding: 3rem 2rem;
+      background: var(--gray);
+      border: 1px solid rgba(93,222,143,0.2);
+      border-radius: var(--radius);
+    }
+    .form-success i { font-size: 2.5rem; color: #5dde8f; }
+    .form-success h4 { font-size: 1.1rem; font-weight: 700; }
+    .form-success p { font-size: 0.875rem; color: #888; line-height: 1.6; }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .contact-main { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .email-address { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
+      <li><a href="quiensoy.html" data-es="Quién Soy" data-en="About Me">Quién Soy</a></li>
+      <li><a href="proyectos.html" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      <li><a href="actualidad.html" data-es="Actualidad" data-en="News">Actualidad</a></li>
+      <li><a href="redes.html" data-es="Redes" data-en="Social">Redes</a></li>
+      <li><a href="contacto.html" class="nav-cta active" data-es="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" /> ES
+      </button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" /> EN
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="contact-hero">
+    <div class="contact-hero-inner animate-in">
+      <span class="section-tag" data-es="// contacto" data-en="// contact">// contacto</span>
+      <h1 data-es="Hablemos<br/>de tu <span>idea.</span>" data-en="Let's talk<br/>about your <span>idea.</span>">Hablemos<br/>de tu <span>idea.</span></h1>
+      <p data-es="Ya sea un proyecto, una consulta o simplemente para conectar — estoy disponible. Elegí el canal que más te guste." data-en="Whether it's a project, a question or just to connect — I'm available. Choose the channel that suits you best.">
+        Ya sea un proyecto, una consulta o simplemente para conectar — estoy disponible. Elegí el canal que más te guste.
+      </p>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <div class="contact-main">
+
+    <!-- INFO IZQUIERDA -->
+    <div class="contact-info">
+
+      <!-- EMAILS -->
+      <div class="contact-block">
+        <p class="contact-block-title"><i class="fa-solid fa-envelope"></i> <span data-es="Correo electrónico" data-en="Email">Correo electrónico</span></p>
+
+        <a class="email-card" href="mailto:Byteonargentina@hotmail.com">
+          <div class="email-icon"><i class="fa-solid fa-building"></i></div>
+          <div class="email-info">
+            <span class="email-label" data-es="Marca / Proyectos" data-en="Brand / Projects">Marca / Proyectos</span>
+            <span class="email-address">Byteonargentina@hotmail.com</span>
+          </div>
+          <i class="fa-solid fa-arrow-right email-arrow"></i>
+        </a>
+
+        <a class="email-card" href="mailto:Thomaslesta@gmail.com">
+          <div class="email-icon"><i class="fa-solid fa-user"></i></div>
+          <div class="email-info">
+            <span class="email-label" data-es="Personal / Dev" data-en="Personal / Dev">Personal / Dev</span>
+            <span class="email-address">Thomaslesta@gmail.com</span>
+          </div>
+          <i class="fa-solid fa-arrow-right email-arrow"></i>
+        </a>
+      </div>
+
+      <!-- DM NOTE -->
+      <div class="contact-block">
+        <p class="contact-block-title"><i class="fa-solid fa-comment-dots"></i> <span data-es="Redes sociales" data-en="Social media">Redes sociales</span></p>
+        <div class="dm-note">
+          <i class="fa-solid fa-circle-info"></i>
+          <p data-es="También podés contactarme por <strong>mensaje directo (DM)</strong> en cualquiera de las redes sociales de Byteon Argentina o de mi perfil como desarrollador. Es una forma rápida e informal de iniciar una conversación." data-en="You can also reach me via <strong>direct message (DM)</strong> on any of Byteon Argentina's social networks or my developer profile. It's a quick and informal way to start a conversation.">
+            También podés contactarme por <strong>mensaje directo (DM)</strong> en cualquiera de las redes sociales de Byteon Argentina o de mi perfil como desarrollador. Es una forma rápida e informal de iniciar una conversación.
+          </p>
+        </div>
+      </div>
+
+      <!-- TIEMPO DE RESPUESTA -->
+      <div class="response-time">
+        <div class="response-dot"></div>
+        <p data-es="Tiempo de respuesta habitual: <span>24 a 48 horas</span>. Para proyectos urgentes, preferí el correo." data-en="Usual response time: <span>24 to 48 hours</span>. For urgent projects, email is preferred.">
+          Tiempo de respuesta habitual: <span>24 a 48 horas</span>. Para proyectos urgentes, preferí el correo.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- FORMULARIO DERECHA -->
+    <div class="contact-form-wrap">
+      <div class="form-header">
+        <h3 data-es="Mandame un mensaje" data-en="Send me a message">Mandame un mensaje</h3>
+        <p data-es="Completá el formulario y te respondo a la brevedad en tu correo." data-en="Fill out the form and I'll get back to you shortly at your email.">
+          Completá el formulario y te respondo a la brevedad en tu correo.
+        </p>
+      </div>
+
+      <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-es="Nombre <span>*</span>" data-en="Name <span>*</span>">Nombre <span>*</span></label>
+            <input type="text" id="fname" placeholder="Ej: Juan García" required />
+          </div>
+          <div class="form-group">
+            <label data-es="Correo <span>*</span>" data-en="Email <span>*</span>">Correo <span>*</span></label>
+            <input type="email" id="femail" placeholder="tu@correo.com" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-es="Motivo de contacto <span>*</span>" data-en="Reason for contact <span>*</span>">Motivo de contacto <span>*</span></label>
+          <select id="fmotivo" required>
+            <option value="" disabled selected data-es="Seleccioná una opción" data-en="Select an option">Seleccioná una opción</option>
+            <option value="proyecto" data-es="Proyecto / Colaboración" data-en="Project / Collaboration">Proyecto / Colaboración</option>
+            <option value="consulta" data-es="Consulta técnica" data-en="Technical inquiry">Consulta técnica</option>
+            <option value="laboral" data-es="Propuesta laboral" data-en="Job offer">Propuesta laboral</option>
+            <option value="otro" data-es="Otro" data-en="Other">Otro</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label data-es="Mensaje <span>*</span>" data-en="Message <span>*</span>">Mensaje <span>*</span></label>
+          <textarea id="fmensaje" placeholder="Contame de qué se trata..." required></textarea>
+        </div>
+
+        <button type="submit" class="form-submit">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span data-es="Enviar mensaje" data-en="Send message">Enviar mensaje</span>
+        </button>
+      </form>
+
+      <!-- SUCCESS -->
+      <div class="form-success" id="formSuccess">
+        <i class="fa-solid fa-circle-check"></i>
+        <h4 data-es="¡Mensaje enviado!" data-en="Message sent!">¡Mensaje enviado!</h4>
+        <p data-es="Gracias por escribir. Te respondo en las próximas 24–48 horas." data-en="Thanks for reaching out. I'll get back to you within 24–48 hours.">
+          Gracias por escribir. Te respondo en las próximas 24–48 horas.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner" style="justify-content:center;">
+      <a href="index.html" class="logo">
+        <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Byteon Argentina</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // FORMULARIO — abre el cliente de correo con los datos
+    function handleSubmit(e) {
+      e.preventDefault();
+      const nombre  = document.getElementById('fname').value;
+      const email   = document.getElementById('femail').value;
+      const motivo  = document.getElementById('fmotivo').value;
+      const mensaje = document.getElementById('fmensaje').value;
+      const lang    = localStorage.getItem('byteon-lang') || 'es';
+
+      const subject = lang === 'es'
+        ? `Contacto desde Byteon Portfolio — ${motivo}`
+        : `Contact from Byteon Portfolio — ${motivo}`;
+      const body = lang === 'es'
+        ? `Nombre: ${nombre}\nCorreo: ${email}\nMotivo: ${motivo}\n\nMensaje:\n${mensaje}`
+        : `Name: ${nombre}\nEmail: ${email}\nReason: ${motivo}\n\nMessage:\n${mensaje}`;
+
+      window.location.href = `mailto:Byteonargentina@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+      // Mostrar success
+      document.getElementById('contactForm').style.display = 'none';
+      const s = document.getElementById('formSuccess');
+      s.style.display = 'flex';
+    }
+
+    // SCROLL REVEAL
+    const els = document.querySelectorAll('.email-card, .dm-note, .response-time, .contact-form-wrap');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    els.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
+      obs.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyectos | Byteon Argentina</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+
+    /* ── PROYECTOS — estilos específicos ── */
+
+    /* HERO */
+    .proy-hero {
+      padding: calc(var(--nav-h) + 5rem) 5% 4rem;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+      overflow: hidden;
+    }
+    .proy-hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: -80px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,196,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .proy-hero-inner { max-width: 680px; }
+    .proy-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0.75rem 0 1.2rem;
+    }
+    .proy-hero h1 span { color: var(--yellow); }
+    .proy-hero p {
+      color: #aaa;
+      font-size: 1rem;
+      line-height: 1.75;
+      max-width: 520px;
+    }
+
+    /* CONTADOR */
+    .proy-counter {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .counter-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .counter-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--yellow);
+      line-height: 1;
+    }
+    .counter-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* FILTROS */
+    .filters-bar {
+      padding: 2rem 5%;
+      border-bottom: 1px solid var(--gray2);
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #555;
+      margin-right: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .filter-btn {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      color: #888;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.04em;
+    }
+    .filter-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+    .filter-btn.active {
+      background: var(--yellow);
+      border-color: var(--yellow);
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    /* GRID PROYECTOS */
+    .proy-main { padding: 4rem 5%; }
+    .proy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    /* CARD GRANDE (featured) */
+    .proy-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+    }
+    .proy-card:hover {
+      border-color: rgba(245,196,0,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+    }
+    .proy-card.featured {
+      grid-column: span 2;
+      flex-direction: row;
+    }
+    .proy-card-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gray3);
+      transition: var(--transition);
+    }
+    .proy-card:hover .proy-card-accent { background: var(--yellow); }
+    .proy-card.featured .proy-card-accent { background: var(--yellow); }
+
+    /* MOCK DE PREVIEW */
+    .proy-preview {
+      background: var(--gray2);
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .proy-card.featured .proy-preview {
+      width: 260px;
+      height: auto;
+      min-height: 100%;
+    }
+    .proy-preview-inner {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--gray3);
+      text-align: center;
+      padding: 1.5rem;
+      user-select: none;
+    }
+    .proy-preview-icon {
+      font-size: 2.5rem;
+      color: rgba(245,196,0,0.2);
+      margin-bottom: 0.5rem;
+    }
+    .proy-preview-code {
+      font-size: 0.65rem;
+      line-height: 1.7;
+      text-align: left;
+      display: inline-block;
+    }
+    .proy-preview-code .c-k { color: #c792ea; }
+    .proy-preview-code .c-s { color: #c3e88d; }
+    .proy-preview-code .c-p { color: #f07178; }
+
+    /* CARD BODY */
+    .proy-body { padding: 1.6rem; display: flex; flex-direction: column; gap: 0.85rem; flex: 1; }
+    .proy-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+    .proy-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .proy-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+    .badge-stack {
+      background: rgba(245,196,0,0.1);
+      color: var(--yellow);
+    }
+    .badge-status-done {
+      background: rgba(40,200,100,0.1);
+      color: #5dde8f;
+    }
+    .badge-status-wip {
+      background: rgba(245,150,0,0.1);
+      color: #f5a000;
+    }
+
+    .proy-links { display: flex; gap: 0.75rem; flex-shrink: 0; }
+    .proy-links a {
+      color: var(--gray3);
+      font-size: 1rem;
+      transition: var(--transition);
+      display: flex; align-items: center; gap: 0.3rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+    .proy-links a:hover { color: var(--yellow); }
+    .proy-links a.disabled {
+      opacity: 0.35;
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+
+    .proy-card h3 { font-size: 1.1rem; font-weight: 700; }
+    .proy-card p  { font-size: 0.875rem; color: #888; line-height: 1.65; flex: 1; }
+
+    .proy-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: auto; }
+    .proy-tags span {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      border: 1px solid var(--gray3);
+      color: #777;
+    }
+
+    /* COMING SOON CARD */
+    .proy-card.coming-soon {
+      border-style: dashed;
+      border-color: var(--gray2);
+      opacity: 0.55;
+      cursor: default;
+    }
+    .proy-card.coming-soon:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--gray2);
+    }
+    .coming-soon-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      text-align: center;
+      gap: 0.75rem;
+    }
+    .coming-soon-inner i { font-size: 2rem; color: var(--gray3); }
+    .coming-soon-inner p {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #555;
+    }
+
+    /* GITHUB BANNER */
+    .github-banner {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .github-banner-left { display: flex; align-items: center; gap: 1.5rem; }
+    .github-icon {
+      width: 56px; height: 56px;
+      background: rgba(245,196,0,0.1);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem;
+      color: var(--yellow);
+      flex-shrink: 0;
+    }
+    .github-banner h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .github-banner p { font-size: 0.875rem; color: #888; }
+    .github-banner a {
+      background: var(--yellow);
+      color: var(--black);
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.75rem 1.8rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .github-banner a:hover { background: var(--yellow2); transform: translateY(-2px); }
+
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      .proy-card.featured {
+        grid-column: span 1;
+        flex-direction: column;
+      }
+      .proy-card.featured .proy-preview {
+        width: 100%;
+        min-height: 160px;
+      }
+    }
+    @media (max-width: 560px) {
+      .proy-grid { grid-template-columns: 1fr; }
+      .github-banner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
+      <li><a href="quiensoy.html" data-es="Quién Soy" data-en="About Me">Quién Soy</a></li>
+      <li><a href="proyectos.html" class="active" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      <li><a href="actualidad.html" data-es="Actualidad" data-en="News">Actualidad</a></li>
+      <li><a href="redes.html" data-es="Redes" data-en="Social">Redes</a></li>
+      <li><a href="contacto.html" class="nav-cta" data-es="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" /> ES
+      </button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" /> EN
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="proy-hero">
+    <div class="proy-hero-inner animate-in">
+      <span class="section-tag" data-es="// mis proyectos" data-en="// my projects">// mis proyectos</span>
+      <h1 data-es="Lo que <span>construí</span>" data-en="What I <span>built</span>">Lo que <span>construí</span></h1>
+      <p data-es="Cada proyecto es un paso hacia adelante. Acá encontrás todo lo que desarrollé — desde apps universitarias hasta ideas propias." data-en="Every project is a step forward. Here you'll find everything I've developed — from university apps to personal ideas.">
+        Cada proyecto es un paso hacia adelante. Acá encontrás todo lo que desarrollé — desde apps universitarias hasta ideas propias.
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <div class="filters-bar">
+    <span class="filter-label" data-es="Filtrar:" data-en="Filter:">Filtrar:</span>
+    <button class="filter-btn active" data-filter="all" data-es="Todos" data-en="All">Todos</button>
+    <button class="filter-btn" data-filter="web" data-es="Web" data-en="Web">Web</button>
+    <button class="filter-btn" data-filter="app" data-es="App" data-en="App">App</button>
+    <button class="filter-btn" data-filter="backend" data-es="Backend" data-en="Backend">Backend</button>
+    <button class="filter-btn" data-filter="fullstack">Full Stack</button>
+  </div>
+
+
+
+
+
+  <!-- GRID -->
+  <section class="proy-main">
+    <div class="proy-grid" id="proyGrid">
+
+      <!-- PROYECTO 1 — Menu Restaurante -->
+      <div class="proy-card featured" data-category="web">
+        <div class="proy-card-accent"></div>
+        <div class="proy-preview">
+          <div class="proy-preview-inner">
+            <pre class="proy-preview-code"><span class="c-k">web</span>.<span class="c-p">MapGet</span>(<span class="c-s">"/menu"</span>,
+  async (db) => {
+    <span class="c-k">return</span> await db
+      .Tasks
+      .<span class="c-p">ToListAsync</span>();
+  });</pre>
+          </div>
+        </div>
+        <div class="proy-body">
+          <div class="proy-top">
+            <div class="proy-badges">
+              <span class="proy-badge badge-stack">Web</span>
+              <span class="proy-badge badge-status-done" data-es="Completado" data-en="Completed">Completado</span>
+            </div>
+            <div class="proy-links">
+        <a href="https://github.com/Thomylesta17/menu-restaurante" target="_blank" rel="noopener">
+        <i class="fa-brands fa-github"></i> GitHub
+         </a>
+            </div>
+          </div>
+          <h3>Menu Restaurante</h3>
+          <p data-es="Menú web para restaurante." data-en="Web menu for restaurant.">
+           Menú web para restaurante.
+          </p>
+          <div class="proy-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>Node.js</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROYECTO 2 — Tienda MODA URBANA -->
+      <div class="proy-card" data-category="web">
+        <div class="proy-card-accent"></div>
+        <div class="proy-preview">
+          <div class="proy-preview-inner">
+            <div class="proy-preview-icon"><i class="fa-solid fa-users"></i></div>
+            <pre class="proy-preview-code"><span class="c-k">public</span> <span class="c-p">class</span> Tienda {
+  <span class="c-k">public int</span> Id { <span class="c-s">get</span>; <span class="c-s">set</span>; }
+  <span class="c-k">public string</span> Nombre;
+}</pre>
+          </div>
+        </div>
+        <div class="proy-body">
+          <div class="proy-top">
+            <div class="proy-badges">
+             <span class="proy-badge badge-stack">Web</span>
+              <span class="proy-badge badge-status-done" data-es="Completado" data-en="Completed">Completado</span>
+            </div>
+            <div class="proy-links">
+           <a href="https://github.com/Thomylesta17/tienda-moda-urbana" target="_blank" rel="noopener">
+           <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            </div>
+          </div>
+          <h3>Tienda Moda Urbana</h3>
+          <p data-es="Tienda online de ropa y calzado." data-en="Online store for clothing and footwear.">
+            Tienda online de ropa y calzado.
+          </p>
+          <div class="proy-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROYECTO 3 — CASH FLOR CLI -->
+      <div class="proy-card" data-category="app">
+        <div class="proy-card-accent"></div>
+        <div class="proy-preview">
+          <div class="proy-preview-inner">
+            <div class="proy-preview-icon"><i class="fa-solid fa-palette"></i></div>
+            <pre class="proy-preview-code"><span class="c-k">:root</span> {
+  --yellow: <span class="c-s">#f5c400</span>;
+  --black:  <span class="c-s">#0a0a0a</span>;
+  --white:  <span class="c-s">#f0f0f0</span>;
+}</pre>
+          </div>
+        </div>
+        <div class="proy-body">
+          <div class="proy-top">
+            <div class="proy-badges">
+              <span class="proy-badge badge-stack">App</span>
+              <span class="proy-badge badge-status-wip" data-es="En desarrollo" data-en="In progress">En desarrollo</span>
+            </div>
+            <div class="proy-links">
+              <a href="https://github.com/Thomylesta17/cash-flow-cli" target="_blank" rel="noopener">
+                <i class="fa-brands fa-github"></i> GitHub
+              </a>
+            </div>
+          </div>
+          <h3>Cash Flow CLI</h3>
+          <p data-es="Analizador de gastos personales desde la terminal en Python puro." data-en="Personal expense analyzer from the terminal in pure Python.">
+          Analizador de gastos personales desde la terminal en Python puro.
+          </p>
+          <div class="proy-tags">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Python</span>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <!-- COMING SOON -->
+      <div class="proy-card coming-soon">
+        <div class="coming-soon-inner">
+          <i class="fa-solid fa-clock"></i>
+          <h3 style="font-size:0.95rem;" data-es="Próximo proyecto: NUBO" data-en="Next project: NUBO">Próximo proyecto: NUBO</h3>
+          <p data-es="Algo nuevo está en camino..." data-en="Something new is on the way...">Algo nuevo está en camino...</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GITHUB BANNER -->
+    <div class="github-banner">
+      <div class="github-banner-left">
+        <div class="github-icon"><i class="fa-brands fa-github"></i></div>
+        <div>
+         <h3 data-es="Seguime para no perderte nada" data-en="Follow me to stay updated">Seguime para no perderte nada</h3>
+          <p data-es="Puedes ver mas proyectos/repositorios en mi GitHub personal."  data-en="You can see more projects/repositories on my personal GitHub.">
+            Los repositorios de estos proyectos van a estar disponibles muy pronto. Seguime para no perderte nada.
+          </p>
+        </div>
+      </div>
+      <a href="https://github.com/ThomyLesta17" target="_blank" rel="noopener">
+        <i class="fa-brands fa-github"></i> &nbsp;ThomyLesta17
+      </a>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner" style="justify-content:center;">
+      <a href="index.html" class="logo">
+        <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Byteon Argentina</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // FILTROS
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.proy-card:not(.coming-soon)');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        cards.forEach(card => {
+          const cat = card.dataset.category;
+          if (filter === 'all' || cat === filter) {
+            card.style.display = '';
+            card.style.opacity = '1';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // SCROLL REVEAL
+    const allCards = document.querySelectorAll('.proy-card');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    allCards.forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(24px)';
+      c.style.transition = `opacity 0.55s ease ${i * 0.1}s, transform 0.55s ease ${i * 0.1}s`;
+      obs.observe(c);
+    });
+  </script>
+</body>
+</html>

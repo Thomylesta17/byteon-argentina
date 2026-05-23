@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redes | Byteon Argentina</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+
+    /* ── REDES — estilos específicos ── */
+
+    .redes-hero {
+      padding: calc(var(--nav-h) + 5rem) 5% 4rem;
+      border-bottom: 1px solid var(--gray2);
+      position: relative;
+      overflow: hidden;
+    }
+    .redes-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,196,0,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .redes-hero-inner { max-width: 660px; }
+    .redes-hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 0.75rem 0 1.2rem;
+    }
+    .redes-hero h1 span { color: var(--yellow); }
+    .redes-hero p { color: #aaa; font-size: 1rem; line-height: 1.75; max-width: 520px; }
+
+    /* ── SECCIONES ── */
+    .redes-section { padding: 5rem 5%; border-bottom: 1px solid var(--gray2); }
+    .redes-section-inner { max-width: 1000px; margin: 0 auto; }
+
+    /* DIVISOR ENTRE SECCIONES */
+    .redes-divider {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .redes-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray2);
+    }
+
+    /* GRID DE CARDS */
+    .redes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* SOCIAL CARD */
+    .social-card {
+      background: var(--gray);
+      border: 1px solid var(--gray2);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+    .social-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: transparent;
+      transition: var(--transition);
+    }
+    .social-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.5);
+    }
+
+    /* Colores por red */
+    .social-card.instagram:hover { border-color: rgba(225,48,108,0.4); }
+    .social-card.instagram:hover::before { background: linear-gradient(90deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); }
+    .social-card.instagram .social-icon { color: #e1306c; background: rgba(225,48,108,0.1); }
+
+    .social-card.facebook:hover { border-color: rgba(24,119,242,0.4); }
+    .social-card.facebook:hover::before { background: #1877f2; }
+    .social-card.facebook .social-icon { color: #1877f2; background: rgba(24,119,242,0.1); }
+
+    .social-card.x-twitter:hover { border-color: rgba(240,240,240,0.25); }
+    .social-card.x-twitter:hover::before { background: var(--white); }
+    .social-card.x-twitter .social-icon { color: var(--white); background: rgba(255,255,255,0.08); }
+
+    .social-card.github:hover { border-color: rgba(245,196,0,0.4); }
+    .social-card.github:hover::before { background: var(--yellow); }
+    .social-card.github .social-icon { color: var(--yellow); background: rgba(245,196,0,0.1); }
+
+    .social-card.dev-x:hover { border-color: rgba(240,240,240,0.25); }
+    .social-card.dev-x:hover::before { background: var(--white); }
+    .social-card.dev-x .social-icon { color: var(--white); background: rgba(255,255,255,0.08); }
+
+    /* ICON */
+    .social-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    /* CARD HEAD */
+    .social-head { display: flex; align-items: center; gap: 1rem; }
+    .social-name-wrap { display: flex; flex-direction: column; gap: 0.2rem; }
+    .social-name {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+    .social-handle {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #666;
+    }
+
+    /* DESC */
+    .social-desc {
+      font-size: 0.875rem;
+      color: #888;
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    /* CTA */
+    .social-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--yellow);
+      letter-spacing: 0.04em;
+      margin-top: auto;
+      transition: var(--transition);
+    }
+    .social-card:hover .social-cta { gap: 0.75rem; }
+
+    /* BADGE "Marca" / "Dev" */
+    .social-badge {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .badge-brand {
+      background: rgba(245,196,0,0.1);
+      color: var(--yellow);
+      border: 1px solid rgba(245,196,0,0.25);
+    }
+    .badge-dev {
+      background: rgba(255,255,255,0.05);
+      color: #888;
+      border: 1px solid var(--gray3);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 560px) {
+      .redes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="logo">
+      <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" data-es="Inicio" data-en="Home">Inicio</a></li>
+      <li><a href="quiensoy.html" data-es="Quién Soy" data-en="About Me">Quién Soy</a></li>
+      <li><a href="proyectos.html" data-es="Proyectos" data-en="Projects">Proyectos</a></li>
+      <li><a href="actualidad.html" data-es="Actualidad" data-en="News">Actualidad</a></li>
+      <li><a href="redes.html" class="active" data-es="Redes" data-en="Social">Redes</a></li>
+      <li><a href="contacto.html" class="nav-cta" data-es="Contacto" data-en="Contact">Contacto</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnEs" onclick="setLang('es')" title="Español">
+        <img src="https://flagcdn.com/w40/ar.png" alt="Argentina" /> ES
+      </button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')" title="English">
+        <img src="https://flagcdn.com/w40/us.png" alt="USA" /> EN
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="redes-hero">
+    <div class="redes-hero-inner animate-in">
+      <span class="section-tag" data-es="// redes sociales" data-en="// social media">// redes sociales</span>
+      <h1 data-es="Encontranos<br/><span>en otros sitios.</span>" data-en="Find us<br/><span>on other platforms.</span>">Encontranos<br/><span>en otros sitios.</span></h1>
+      <p data-es="Dos presencias, una visión. Seguí a Byteon Argentina como marca y a Thomás Lesta como desarrollador." data-en="Two presences, one vision. Follow Byteon Argentina as a brand and Thomás Lesta as a developer.">
+        Dos presencias, una visión. Seguí a Byteon Argentina como marca y a Thomás Lesta como desarrollador.
+      </p>
+    </div>
+  </section>
+
+  <!-- BYTEON ARGENTINA -->
+  <section class="redes-section">
+    <div class="redes-section-inner">
+      <div class="redes-divider">
+        <div>
+          <span class="section-tag" data-es="// marca" data-en="// brand">// marca</span>
+          <h2 data-es="Byteon Argentina" data-en="Byteon Argentina">Byteon Argentina</h2>
+        </div>
+      </div>
+
+      <div class="redes-grid">
+
+        <!-- INSTAGRAM -->
+        <a class="social-card instagram" href="https://instagram.com/byteonarg" target="_blank" rel="noopener">
+          <span class="social-badge badge-brand" data-es="Marca" data-en="Brand">Marca</span>
+          <div class="social-head">
+            <div class="social-icon"><i class="fa-brands fa-instagram"></i></div>
+            <div class="social-name-wrap">
+              <span class="social-name">Instagram</span>
+              <span class="social-handle">@byteonarg</span>
+            </div>
+          </div>
+          <p class="social-desc" data-es="Contenido visual de proyectos, behind the scenes del desarrollo y novedades de la marca Byteon Argentina." data-en="Visual content of projects, development behind the scenes and Byteon Argentina brand updates.">
+            Contenido visual de proyectos, behind the scenes del desarrollo y novedades de la marca Byteon Argentina.
+          </p>
+          <span class="social-cta" data-es="Seguir en Instagram →" data-en="Follow on Instagram →">Seguir en Instagram →</span>
+        </a>
+
+        <!-- FACEBOOK -->
+        <a class="social-card facebook" href="https://facebook.com/byteonarg" target="_blank" rel="noopener">
+          <span class="social-badge badge-brand" data-es="Marca" data-en="Brand">Marca</span>
+          <div class="social-head">
+            <div class="social-icon"><i class="fa-brands fa-facebook-f"></i></div>
+            <div class="social-name-wrap">
+              <span class="social-name">Facebook</span>
+              <span class="social-handle">byteonarg</span>
+            </div>
+          </div>
+          <p class="social-desc" data-es="Página oficial de Byteon Argentina. Actualizaciones, proyectos y presencia institucional de la marca." data-en="Official Byteon Argentina page. Updates, projects and institutional brand presence.">
+            Página oficial de Byteon Argentina. Actualizaciones, proyectos y presencia institucional de la marca.
+          </p>
+          <span class="social-cta" data-es="Seguir en Facebook →" data-en="Follow on Facebook →">Seguir en Facebook →</span>
+        </a>
+
+        <!-- X BYTEON -->
+        <a class="social-card x-twitter" href="https://x.com/ByteonArg" target="_blank" rel="noopener">
+          <span class="social-badge badge-brand" data-es="Marca" data-en="Brand">Marca</span>
+          <div class="social-head">
+            <div class="social-icon"><i class="fa-brands fa-x-twitter"></i></div>
+            <div class="social-name-wrap">
+              <span class="social-name">X (Twitter)</span>
+              <span class="social-handle">@ByteonArg</span>
+            </div>
+          </div>
+          <p class="social-desc" data-es="Opiniones sobre tech, noticias del mundo del software e IA, y todo lo que pasa en Byteon Argentina en tiempo real." data-en="Tech opinions, software and AI world news, and everything happening at Byteon Argentina in real time.">
+            Opiniones sobre tech, noticias del mundo del software e IA, y todo lo que pasa en Byteon Argentina en tiempo real.
+          </p>
+          <span class="social-cta" data-es="Seguir en X →" data-en="Follow on X →">Seguir en X →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- THOMÁS LESTA (DEV) -->
+  <section class="redes-section" style="border-bottom:none;">
+    <div class="redes-section-inner">
+      <div class="redes-divider">
+        <div>
+          <span class="section-tag" data-es="// desarrollador" data-en="// developer">// desarrollador</span>
+          <h2>Thomás Lesta</h2>
+        </div>
+      </div>
+
+      <div class="redes-grid">
+
+        <!-- GITHUB -->
+        <a class="social-card github" href="https://github.com/thomylesta17" target="_blank" rel="noopener">
+          <span class="social-badge badge-dev">Dev</span>
+          <div class="social-head">
+            <div class="social-icon"><i class="fa-brands fa-github"></i></div>
+            <div class="social-name-wrap">
+              <span class="social-name">GitHub</span>
+              <span class="social-handle">thomylesta17</span>
+            </div>
+          </div>
+          <p class="social-desc" data-es="Repositorios de mis proyectos personales y universitarios. Código abierto, en construcción y creciendo constantemente." data-en="Repositories of my personal and university projects. Open code, under construction and constantly growing.">
+            Repositorios de mis proyectos personales y universitarios. Código abierto, en construcción y creciendo constantemente.
+          </p>
+          <span class="social-cta" data-es="Ver perfil en GitHub →" data-en="View GitHub profile →">Ver perfil en GitHub →</span>
+        </a>
+
+        <!-- X THOMÁS -->
+        <a class="social-card dev-x" href="https://x.com/Tlestadev" target="_blank" rel="noopener">
+          <span class="social-badge badge-dev">Dev</span>
+          <div class="social-head">
+            <div class="social-icon"><i class="fa-brands fa-x-twitter"></i></div>
+            <div class="social-name-wrap">
+              <span class="social-name">X (Twitter)</span>
+              <span class="social-handle">@Tlestadev</span>
+            </div>
+          </div>
+          <p class="social-desc" data-es="Mi perfil personal como desarrollador. Lo que aprendo, lo que construyo, lo que pienso sobre tecnología y el mundo del software." data-en="My personal developer profile. What I learn, what I build, what I think about technology and the software world.">
+            Mi perfil personal como desarrollador. Lo que aprendo, lo que construyo, lo que pienso sobre tecnología y el mundo del software.
+          </p>
+          <span class="social-cta" data-es="Seguir en X →" data-en="Follow on X →">Seguir en X →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <h2 data-es="¿Preferís hablar<br/>directamente?" data-en="Prefer to talk<br/>directly?">¿Preferís hablar<br/>directamente?</h2>
+      <a href="contacto.html" class="btn-dark" data-es="Ir al contacto" data-en="Go to contact">Ir al contacto</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner" style="justify-content:center;">
+      <a href="index.html" class="logo">
+        <span class="logo-bracket">&lt;</span>Byteon<span class="logo-accent">AR</span><span class="logo-bracket">/&gt;</span>
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Byteon Argentina</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Scroll reveal
+    const cards = document.querySelectorAll('.social-card');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    cards.forEach((c, i) => {
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(24px)';
+      c.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
+      obs.observe(c);
+    });
+  </script>
+</body>
+</html>
